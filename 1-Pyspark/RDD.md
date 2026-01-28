@@ -39,14 +39,6 @@ RDD (Resilient Distributed Dataset) is the fundamental data structure of Apache 
 | `take(n)` | Return first n elements | `rdd.take(5)` |
 | `saveAsTextFile()` | Save to text files | `rdd.saveAsTextFile("output")` |
 
-## RDD Creation
-
-### From Collections
-```python
-data = [1, 2, 3, 4, 5]
-rdd = spark.sparkContext.parallelize(data)
-```*
-
 ## RDD vs DataFrame Comparison
 
 | Feature | RDD (Resilient Distributed Dataset) | DataFrame |
@@ -57,3 +49,12 @@ rdd = spark.sparkContext.parallelize(data)
 | **Data Type** | Type-safe. (In Java/Scala) You know exactly what objects you're handling. | Untyped. (In Python/Scala) Errors often show up at runtime rather than compile time. |
 | **Performance** | Slower for structured data due to Java/Python object overhead. | Faster due to optimized in-memory format (Tungsten) and query optimization. |
 | **Use Case** | Low-level operations, custom algorithms, unstructured data. | Structured data processing, SQL-like operations, ML pipelines. |
+
+## RDD Creation
+
+### From Collections
+```python
+data = [1, 2, 3, 4, 5]
+rdd = spark.sparkContext.parallelize(data)
+```*
+
