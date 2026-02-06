@@ -415,3 +415,13 @@ df = spark.read.schema(ddl_schema).csv("employees.csv")
 | Speed | Slow (requires an extra pass over data). | Fast (no data scanning needed). |
 | Reliability | Might guess wrong (e.g., ZIP codes as Integers). | You have 100% control. |
 | Data Quality | Corrupt rows might slip through. | Corrupt rows can be caught or nulled |
+
+
+**Viewing and Managing Schemas**
+
+Once a DataFrame is created, you can inspect or manipulate its schema with these commands:
+
+df.printSchema(): Displays a tree-like view of the schema.
+df.schema: Returns the StructType object (useful for passing to other DFs).
+df.columns: Returns a list of just the column names.
+df.dtypes: Returns a list of tuples (column_name, data_type).
