@@ -77,3 +77,37 @@ Rows vs. Range
 rowsBetween: Counts the physical number of rows (e.g., "3 rows back").
 rangeBetween: Looks at the values in the orderBy column (e.g., "3 days back" based on the actual date values,
 regardless of how many rows exist in those 3 days).
+
+4. ntile(n)
+
+ntile is used to divide a partition into n equal groups (as much as possible) and assign a bucket number to each row. 
+This is most commonly used for calculating quartiles (4 buckets) or deciles (10 buckets).
+
+```python
+# Divide employees into 4 groups based on salary (Quartiles)
+window_spec = Window.partitionBy("department").orderBy("salary")
+
+df.withColumn("quartile", F.ntile(4).over(window_spec)).show()
+```
+
+**How it works**: If you have 10 rows and ask for ntile(4), Spark will create two groups of 3 rows and two groups of 2 rows.
+
+**Use Case**: Identifying the "Top 25%" of customers or dividing a workload into equal batches.
+
+
+2. first() and last()
+These functions retrieve the value of a column from the very first or very last row of the window frame.
+
+By default, these functions might return null if the first/last row in your frame is empty. 
+You can pass **ignorenulls**=**True** to skip those and find the first/last actual value.
+
+
+```python
+# window_spec defined by date
+window_spec = Window.partitionBy("user_id").orderBy("date") \
+                    .rowsBetween(Window.unboundedPreceding, Window.unboundedFollowing)
+
+df.withColumn("first_purchase", F.first("product", ignorenulls=True).over(window_spec)) \
+  .withColumn("latest_purchase", F.last("product", ignorenulls=True).over(window_spec))
+
+```
