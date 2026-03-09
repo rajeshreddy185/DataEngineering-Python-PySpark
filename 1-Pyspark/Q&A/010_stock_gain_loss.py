@@ -21,7 +21,7 @@ stock_schema = StructType([
     StructField("price", IntegerType(), True)
 ])
 
-spark = SparkSession.builder.appName('CountryGDP').getOrCreate()
+spark = SparkSession.builder.appName('StockGainLoss').getOrCreate()
 stock_df = spark.createDataFrame(stock_data, stock_schema)
 
 stock_df.show()
